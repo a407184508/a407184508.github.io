@@ -26,4 +26,4 @@ hero:
 #     details: Lorem ipsum dolor sit amet, consectetur adipiscing elit
 ---
 
-# 首页
+# 首页 & 关于作者.
