@@ -1,3 +1,4 @@
+# 配置 GitHub 自动部署 actions
 name: Deploy
 
 on:
