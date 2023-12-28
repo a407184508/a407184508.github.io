@@ -1,4 +1,8 @@
 {
+  "name": "mengxiaoxuan888.github.io",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
   "devDependencies": {
     "vitepress": "1.0.0-rc.33"
   },
