@@ -3,14 +3,15 @@ import { defineConfig } from 'vitepress'
 // https://vitepress.dev/reference/site-config
 export default defineConfig({
   title: "Mr.Chen",
-  description: "Mr.Chen IChuck 的 site.",
+  description: "个人博客",
+  srcDir: "./src",
   themeConfig: {
     // https://vitepress.dev/reference/default-theme-config
     // 配置导航
     nav: [
       { text: 'Home', link: '/' },
-      { text: 'Examples', link: '/markdown-examples' },
-      { text: 'Guide', link: '/guide' },
+      { text: 'Examples', link: '/vitepress/examples/markdown-examples' },
+      { text: 'roadmap', link: '/roadmap' },
       {
         text: 'Dropdown Menu',
         items: [
