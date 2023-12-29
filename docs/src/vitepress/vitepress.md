@@ -18,4 +18,4 @@ nppm run dev
 ## 4. 项目结构
 
 
-## 5. peizhi
+## 5. 发布 GitHub Pages

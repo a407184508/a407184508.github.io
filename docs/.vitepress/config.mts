@@ -10,8 +10,8 @@ export default defineConfig({
     // 配置导航
     nav: [
       { text: 'Home', link: '/' },
-      { text: 'Examples', link: '/vitepress/examples/markdown-examples' },
       { text: 'roadmap', link: '/roadmap' },
+      { text: 'about', link: '/about' },
       {
         text: 'Dropdown Menu',
         items: [
@@ -56,8 +56,9 @@ export default defineConfig({
     // 配置页脚
     footer: {
       message: 'Released under the MIT License.',
-      copyright: 'Copyright © 2019-present Evan You'
+      copyright: 'Copyright © 2023 Mr.chen'
     },
+
     // 编辑链接
     editLink: {
       pattern: 'https://github.com/vuejs/vitepress/edit/main/docs/:path',
@@ -73,6 +74,7 @@ export default defineConfig({
       }
     },
 
+    // 是否现在返回顶部按钮
     returnToTopLabel: 'top'
   },
 

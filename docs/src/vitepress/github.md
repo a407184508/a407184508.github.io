@@ -1,5 +1,4 @@
-
-# 发布GitHub Pages
+# 发布GitHub Pages \ Actions 自动部署
 
 ## 1. 准备工作
 
