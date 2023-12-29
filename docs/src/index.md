@@ -12,11 +12,11 @@ hero:
 
   actions:
     - theme: brand
-      text: Markdown Examples
-      link: /vitepress/examples/markdown-examples
+      text: uniapp
+      link: /uniapp/index
     - theme: alt
-      text: API Examples
-      link: /vitepress/examples/api-examples
+      text: vitepress 
+      link: /vitepress/index
 
 features:
   - title: Feature A
@@ -26,3 +26,4 @@ features:
   - title: Feature C
     details: Lorem ipsum dolor sit amet, consectetur adipiscing elit
 ---
+
