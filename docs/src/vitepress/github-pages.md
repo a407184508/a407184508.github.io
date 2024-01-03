@@ -28,3 +28,8 @@
  git commit -m "modify"
  git push
 ```
+
+## tips:
+
+1. 没有读写权限, 在设置里配置 read and write 需要配置读写权限.
+2. 在 github pages 里需要设置执行 GitHub Actions, 执行工作流.

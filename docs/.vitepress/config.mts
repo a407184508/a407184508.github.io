@@ -24,7 +24,7 @@ export default defineConfig({
     // 配置侧边栏
     sidebar: [
       {
-        text: 'Examples',
+        text: '项目根目录',
         items: [
           { text: 'uniapp', link: '/uniapp/index' },
           { text: 'vitepress', link: '/vitepress/index' }
