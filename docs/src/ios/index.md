@@ -12,9 +12,9 @@
 ## 目录
 
 * [第一章 开发环境搭建](chapter1/index.md)
-* [第二章 认识Objective-C](chapter2/index.md)
+<!-- * [第二章 认识Objective-C](chapter2/index.md)
 * [第三章 认识Swift](chapter3/index.md)
 * [第四章 认识Cocoa Touch](chapter4/index.md)
 * [第五章 认识UIKit](chapter5/index.md)
 * [第六章 认识Foundation](chapter6/index.md)
-* [第七章 认识Core Graphics](chapter7/index.md)
+* [第七章 认识Core Graphics](chapter7/index.md) -->
