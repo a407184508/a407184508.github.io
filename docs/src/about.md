@@ -4,15 +4,16 @@
 - 超级宝爸
 - 一名普通的程序员
 - 副业爱好者
+- 专注提升自己的技术栈
 
 ## 支持作者
 
 
 ## 联系作者
 
-QQ: 407184508
-Eamil: 407184508@qq.com
-github: https://github.com/a407184508
+-  QQ: 407184508
+-  Eamil: 407184508@qq.com
+-  github: https://github.com/a407184508
 
 ## 关于本站
 

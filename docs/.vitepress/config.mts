@@ -27,7 +27,14 @@ export default defineConfig({
         text: '项目根目录',
         items: [
           { text: 'uniapp', link: '/uniapp/index' },
-          { text: 'vitepress', link: '/vitepress/index' }
+          { text: 'vitepress', link: '/vitepress/index' },
+          { text: 'macos', link: '/mac/index' },
+          { text: 'ios', link: '/ios/index' },
+          { text: 'flutter', link: '/flutter/index' },
+          { text: 'project', link: '/project/index' },
+          { text: 'web', link: '/web/index' },
+          { text: 'server', link: '/server/index' },
+          { text: 'android', link: '/android/index' },
         ],
         collapsed: false
       }

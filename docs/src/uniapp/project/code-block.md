@@ -35,3 +35,20 @@ uni-checkbox .uni-checkbox-input.uni-checkbox-input-checked:after {
   }
 }
 ```
+
+## 配置适配iPad, 在 page.json 中添加全局样式, rpx 超出屏幕使用 px 单位.
+
+```json{8}
+"globalStyle": {
+  "navigationBarTextStyle": "black",
+  "navigationBarTitleText": "iCare",
+  "navigationBarBackgroundColor": "#fff",
+  "backgroundColor": "#fff"
+    // #ifdef APP-PLUS
+    ,
+  "rpxCalcMaxDeviceWidth": 500,
+  "rpxCalcBaseDeviceWidth": 500,
+  "rpxCalcIncludeWidth": 750
+  // #endif 
+},
+```
