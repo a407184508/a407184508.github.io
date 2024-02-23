@@ -26,3 +26,12 @@
 安装 fira-code 字体
 - 在`brew install --cask font-fira-code`
 - 在vscode 里需要添加 `fontLigatures` 为 true 配置双字符字体
+
+
+
+# HbuilderX 项目转成 Xcode 开发
+
+1. 配置uniapp环境
+2. 使用命令行创建项目 cli, 配置 npm/cnpm/yarn 包环境
+3. 安装 uniapp 插件
+4. 将 uniapp 项目移动到 cli 项目的 src 目录下

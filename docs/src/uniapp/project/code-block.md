@@ -36,7 +36,7 @@ uni-checkbox .uni-checkbox-input.uni-checkbox-input-checked:after {
 }
 ```
 
-## 配置适配iPad, 在 page.json 中添加全局样式, rpx 超出屏幕使用 px 单位.
+## 配置适配iPad, 在 page.json 中添加全局样式, rpx 超出屏幕使用 px 单位. (在设计超过 phone 的设计需要使用 px 单位, 效果更好)
 
 ```json{8}
 "globalStyle": {

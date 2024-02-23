@@ -163,3 +163,50 @@ brew --prefix man
 - [Homebrew - Homebrew/homebrew-bundle](https://github.com/Homebrew/homebrew-bundle)
 - [Homebrew - Homebrew/homebrew-services](https://github.com/Homebrew/homebrew-services)
 - [Homebrew - Homebrew/homebrew-cask-drivers]()
+
+
+## 7. 常用软件
+
+```shell
+
+✗ brew list
+==> Formulae
+abseil				libxau				python-lxml
+brotli				libxcb				python-packaging
+c-ares				libxdmcp			python-psutil
+ca-certificates			libxext				python-pyparsing
+cairo				libxrender			python-pytz
+cffi				libyaml				python-requests
+cocoapods			little-cms2			python-setuptools
+fastlane			lxc				python-tabulate
+fontconfig			lz4				python-toml
+freetype			lzo				python-typing-extensions
+gettext				mpdecimal			python-urllib3
+giflib				mysql				python@3.12
+glib				ncurses				pyyaml
+graphite2			node				readline
+harfbuzz			openjdk				ruby
+icu4c				openjdk@11			six
+jadx				openssl@1.1			snap
+jenkins-lts			openssl@3			snapcraft
+jpeg-turbo			pcre				sqlite
+jsoncpp				pcre2				squashfs
+libcbor				pixman				terminal-notifier
+libevent			protobuf			tomcat
+libfido2			protobuf@21			tree
+libgit2				pycparser			xdelta
+libnghttp2			pygit2				xorgproto
+libpng				python-attrs			xz
+libsodium			python-certifi			zlib
+libssh2				python-charset-normalizer	zsh
+libtiff				python-click			zsh-autosuggestions
+libuv				python-dateutil			zsh-syntax-highlighting
+libx11				python-idna			zstd
+
+==> Casks
+adrive			ccleaner		font-fira-code		macdown			utools
+alfred			cloudflare-warp		github			microsoft-edge		visual-studio-code
+apifox			docker			google-chrome		mysqlworkbench		xmind
+arc			feishu			iterm2			sourcetree		yuque
+betterzip		flutter			licecap			staruml
+```

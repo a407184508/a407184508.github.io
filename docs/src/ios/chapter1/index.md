@@ -5,6 +5,9 @@
 
 ### 安装Xcode
 
+1. App Store 下载 xcode 并安装
+2. 安装 tools
+
 ## 安装CocoaPods
 
 ```shell
@@ -41,4 +44,10 @@ pod lib lint
 pod spec create
 
 pod spec lint
+```
+
+## 安装Homebrew
+
+```shell
+ruby -e "$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/master/install)"
 ```

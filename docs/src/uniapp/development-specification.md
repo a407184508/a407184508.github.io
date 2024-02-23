@@ -24,9 +24,11 @@
 
 ## 2. 生命周期:
 
-1. onLoad
-2. onShow
-3. onHide
+页面生命周期钩子:
+
+1. onLoad // 页面加载时触发
+2. onShow // 页面显示时触发
+3. onHide // 页面隐藏时触发
 4. onUnload
 5. onPullDownRefresh
 6. onReachBottom
@@ -34,6 +36,8 @@
 8. onPageScroll
 9. onResize
 10. onTabItemTap
+
+组件生命周期钩子:
 
 ## 3. 代码规范:
 
