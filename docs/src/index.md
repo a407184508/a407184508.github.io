@@ -3,9 +3,9 @@
 layout: home
 
 hero:
-  name: "IChuck"
-  text: "Mr.Chen IChuck 的 site."
-  tagline: My great project tagline
+  name: "Chuck"
+  text: "Mr.Chen"
+  tagline: 我的个人主页
   image:
     src: /static/logo2.png
     alt: VitePress

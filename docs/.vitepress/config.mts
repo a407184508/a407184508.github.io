@@ -63,7 +63,7 @@ export default defineConfig({
     // 配置页脚
     footer: {
       message: 'Released under the MIT License.',
-      copyright: 'Copyright © 2023 Mr.chen'
+      copyright: 'Copyright © 2024 Mr.chen'
     },
 
     // 编辑链接
@@ -74,10 +74,10 @@ export default defineConfig({
 
     // 最后更新时间
     lastUpdated: {
-      text: 'Updated at',
+      text: '最后更新时间',
       formatOptions: {
-        dateStyle: 'full',
-        timeStyle: 'medium'
+        dateStyle: 'short',
+        timeStyle: 'short'
       }
     },
 

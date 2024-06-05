@@ -3,7 +3,7 @@
   "version": "1.0.0",
   "description": "",
   "devDependencies": {
-    "vitepress": "1.0.0-rc.33"
+    "vitepress": "1.2.3"
   },
   "scripts": {
     "docs:dev": "vitepress dev docs",
