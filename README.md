@@ -4,31 +4,22 @@
 
 - node 14+
 - pnpm 6+
+- github pages
 
 ## vitepress 命令:
 
 ```bash
-pnpm run dev
-pnpm run build
-pnpm run serve
+"scripts": {
+    "docs:dev": "vitepress dev docs",
+    "docs:build": "vitepress build docs",
+    "docs:preview": "vitepress preview docs"
+}
 ```
 
 ## 安装
 
 ```bash
 pnpm install
-```
-
-## 开发
-
-```bash
-pnpm dev
-```
-
-## 构建
-
-```bash
-pnpm build
 ```
 
 ## 部署

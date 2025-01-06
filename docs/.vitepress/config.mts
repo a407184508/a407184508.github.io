@@ -2,57 +2,89 @@ import { defineConfig } from 'vitepress'
 
 // https://vitepress.dev/reference/site-config
 export default defineConfig({
-  title: "Mr.Chen",
+  lang: 'zh-CN',
+  title: "MR.CHEN",
   description: "个人博客",
   srcDir: "./src",
   themeConfig: {
     // https://vitepress.dev/reference/default-theme-config
+
+    // 配置logo
+    logo: '/static/logo2.png',
+
+    // 配置站点标题
+    siteTitle: 'MR.CHEN',
+
     // 配置导航
     nav: [
-      { text: 'Home', link: '/' },
-      { text: 'roadmap', link: '/roadmap' },
-      { text: 'about', link: '/about' },
-      {
-        text: 'Dropdown Menu',
-        items: [
-          { text: 'Item A', link: '/item-1' },
-          { text: 'Item B', link: '/item-2' },
-          { text: 'Item C', link: '/item-3' }
-        ]
-      }
+      { text: '首页', link: '/' },
+      { text: '知识地图', link: '/roadmap' },
+      { text: '关于', link: '/about' },
+      // {
+      //   text: 'Dropdown Menu',
+      //   items: [
+      //     { text: 'Item A', link: '/item-1' },
+      //     { text: 'Item B', link: '/item-2' },
+      //     { text: 'Item C', link: '/item-3' }
+      //   ]
+      // }
     ],
     // 配置侧边栏
     sidebar: [
       {
-        text: '项目根目录',
+        text: 'iOS 开发',
         items: [
-          { text: 'uniapp', link: '/uniapp/index' },
-          { text: 'vitepress', link: '/vitepress/index' },
-          { text: 'macos', link: '/mac/index' },
-          { text: 'ios', link: '/ios/index' },
-          { text: 'flutter', link: '/flutter/index' },
-          { text: 'project', link: '/project/index' },
-          { text: 'web', link: '/web/index' },
-          { text: 'server', link: '/server/index' },
-          { text: 'android', link: '/android/index' },
+          { text: '环境搭建', link: '/ios/index' },
+          { text: 'Swift', link: '/ios/swift' },
+          { text: 'SwiftUI', link: '/ios/swiftui' },
+          { text: '速查', link: '/ios/quick' },
         ],
         collapsed: false
-      }
-    ],
-    // 配置社交链接
-    socialLinks: [
-      { icon: 'github', link: 'https://github.com/vuejs/vitepress' },
-      { icon: 'twitter', link: '...' },
-      // You can also add custom icons by passing SVG as string:
+      },
       {
-        icon: {
-          svg: '<svg role="img" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><title>Dribbble</title><path d="M12...6.38z"/></svg>'
-        },
-        link: '...',
-        // You can include a custom label for accessibility too (optional but recommended):
-        ariaLabel: 'cool link'
+        text: "Java",
+        items: [
+          { text: 'JavaScript', link: '/javascript/index' },
+          { text: 'TypeScript', link: '/typescript/index' },
+          { text: 'Node.js', link: '/node/index' },
+          { text: 'Vue.js', link: '/vue/index' },
+          { text: 'React.js', link: '/react/index' },
+          { text: 'Webpack', link: '/webpack/index' },
+        ]
+      },
+      {
+        text: "Web 开发",
+        items: [
+          { text: 'Web', link: '/web/index' },
+          { text: 'Vue', link: '/vue/index' },
+          { text: 'React', link: '/react/index' },
+          { text: 'Node', link: '/node/index' },
+          { text: 'Project', link: '/project/index' },
+          { text: 'Server', link: '/server/index' },
+        ]
+      },
+      {
+        text: "VitePress",
+        items: [
+          { text: 'VitePress', link: '/vitepress/index' },
+        ]
       }
     ],
+
+    // 配置社交链接
+    // socialLinks: [
+    //   { icon: 'github', link: 'https://github.com/vuejs/vitepress' },
+    //   { icon: 'twitter', link: '...' },
+    //   // You can also add custom icons by passing SVG as string:
+    //   {
+    //     icon: {
+    //       svg: '<svg role="img" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><title>Dribbble</title><path d="M12...6.38z"/></svg>'
+    //     },
+    //     link: '...',
+    //     // You can include a custom label for accessibility too (optional but recommended):
+    //     ariaLabel: 'cool link'
+    //   }
+    // ],
 
     // 文档页脚
     docFooter: {
@@ -82,9 +114,12 @@ export default defineConfig({
     },
 
     // 是否现在返回顶部按钮
-    returnToTopLabel: 'top'
+    returnToTopLabel: 'top',
+
+    externalLinkIcon: true,
   },
 
+  // 路由重写
   rewrites: {
 
   },
