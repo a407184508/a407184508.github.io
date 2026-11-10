@@ -1,0 +1,12 @@
+node_modules/
+.pnpm-store/
+.next/
+out/
+dist/
+.turbo/
+*.tsbuildinfo
+.DS_Store
+.env
+.env.*
+!.env.example
+apps/web/public/images/posts/**/.DS_Store

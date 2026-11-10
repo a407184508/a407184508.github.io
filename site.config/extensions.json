@@ -1,0 +1,41 @@
+{
+  "schemaVersion": 1,
+  "items": [
+    {
+      "id": "articles",
+      "label": "文章管理",
+      "href": "/app/articles/",
+      "position": "header",
+      "order": 10,
+      "enabled": true,
+      "description": "编写、预览与发布"
+    },
+    {
+      "id": "wechat",
+      "label": "公众号排版",
+      "href": "/app/tools/wechat/",
+      "position": "header",
+      "order": 20,
+      "enabled": true,
+      "description": "Markdown 转公众号富文本"
+    },
+    {
+      "id": "longimage",
+      "label": "长图导出",
+      "href": "/app/tools/longimage/",
+      "position": "header",
+      "order": 30,
+      "enabled": true,
+      "description": "Markdown 生成可分享长图"
+    },
+    {
+      "id": "settings",
+      "label": "设置",
+      "href": "/app/settings/",
+      "position": "header",
+      "order": 40,
+      "enabled": true,
+      "description": "GitHub 连接与数据管理"
+    }
+  ]
+}

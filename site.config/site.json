@@ -1,0 +1,16 @@
+{
+  "schemaVersion": 1,
+  "title": "我的数字生活",
+  "description": "写作、工具与记录",
+  "author": "Alen",
+  "url": "https://a407184508.github.io",
+  "locale": "zh-CN",
+  "footer": {
+    "text": "用 Markdown 写作，用 GitHub Pages 发布。",
+    "since": 2026
+  },
+  "theme": {
+    "accent": "#3b6cf0",
+    "radius": "10px"
+  }
+}

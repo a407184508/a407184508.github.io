@@ -1,0 +1,11 @@
+{
+  "schemaVersion": 1,
+  "items": [
+    { "id": "home", "label": "首页", "href": "/", "position": "header", "order": 10, "enabled": true },
+    { "id": "tags", "label": "标签", "href": "/tags/", "position": "header", "order": 20, "enabled": true },
+    { "id": "archive", "label": "归档", "href": "/archive/", "position": "header", "order": 30, "enabled": true },
+    { "id": "about", "label": "关于", "href": "/about/", "position": "header", "order": 40, "enabled": true },
+    { "id": "studio", "label": "工作区", "href": "/app/", "position": "header", "order": 50, "enabled": true },
+    { "id": "rss", "label": "RSS", "href": "/rss.xml", "position": "footer", "order": 10, "enabled": true }
+  ]
+}

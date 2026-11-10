@@ -1,0 +1,9 @@
+{
+  "schemaVersion": 1,
+  "tags": [
+    { "name": "工具", "slug": "tools", "color": "#3b6cf0", "order": 10, "description": "工具与效率实践" },
+    { "name": "效率", "slug": "efficiency", "color": "#0e9f6e", "order": 20, "description": "工作流与时间管理" },
+    { "name": "技术", "slug": "tech", "color": "#7c3aed", "order": 30, "description": "工程与实现细节" },
+    { "name": "随笔", "slug": "notes", "color": "#d97706", "order": 40, "description": "随手记录与思考" }
+  ]
+}
