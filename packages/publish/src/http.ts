@@ -42,7 +42,8 @@ export class GitHubHttp {
   constructor(token: string, options: { apiBase?: string; fetchImpl?: typeof fetch } = {}) {
     this.token = token
     this.apiBase = options.apiBase ?? 'https://api.github.com'
-    this.fetchImpl = options.fetchImpl ?? fetch
+    // 绑定到全局：直接存引用后以 this.fetchImpl() 调用会触发浏览器的 Illegal invocation
+    this.fetchImpl = options.fetchImpl ?? fetch.bind(globalThis)
   }
 
   async request<T>(path: string, options: Omit<GitHubRequestOptions, 'token'> = {}): Promise<T> {
