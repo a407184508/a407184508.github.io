@@ -149,6 +149,9 @@ export default function AppHomePage() {
           <Card className="flex flex-col gap-2">
             <h2 className="text-sm font-semibold">创作工具</h2>
             <div className="flex flex-col gap-1.5 text-sm">
+              <Link href="/app/tools/cover/" className="text-[var(--color-text-muted)] hover:text-[var(--color-accent)]">
+                封面设计 →
+              </Link>
               <Link href="/app/tools/wechat/" className="text-[var(--color-text-muted)] hover:text-[var(--color-accent)]">
                 公众号排版 →
               </Link>

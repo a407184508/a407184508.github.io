@@ -8,6 +8,7 @@ import { cn } from '@blog/ui'
 const NAV = [
   { href: '/app/', label: '概览', exact: true },
   { href: '/app/articles/', label: '文章' },
+  { href: '/app/tools/cover/', label: '封面设计' },
   { href: '/app/tools/wechat/', label: '公众号排版' },
   { href: '/app/tools/longimage/', label: '长图导出' },
   { href: '/app/settings/', label: '设置' },

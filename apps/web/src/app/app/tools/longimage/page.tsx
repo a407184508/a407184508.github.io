@@ -2,18 +2,19 @@
 
 import { useEffect, useMemo, useRef, useState } from 'react'
 import { extractAssetIds, type Article } from '@blog/core'
-import { exceedsCanvasLimit, paginateBlocks, type BlockKind, type BlockMetric } from '@blog/markdown'
+import { CARD_THEMES, getCardTheme, exceedsCanvasLimit, paginateBlocks, type BlockKind, type BlockMetric } from '@blog/markdown'
 import { Button, Card, Field, Input } from '@blog/ui'
 import { listArticles } from '@/lib/articles'
 import { useAssetUrls } from '@/lib/assets'
 
 const SIZE_PRESETS = [
-  { id: '1080x1440', label: '1080 × 1440', width: 1080, height: 1440 },
-  { id: '1080x1920', label: '1080 × 1920', width: 1080, height: 1920 },
-  { id: '900x1200', label: '900 × 1200', width: 900, height: 1200 },
+  { id: '1080x1440', label: '1080 × 1440（小红书 3:4）', width: 1080, height: 1440 },
+  { id: '1080x1920', label: '1080 × 1920（竖屏 9:16）', width: 1080, height: 1920 },
+  { id: '1242x1660', label: '1242 × 1660（小红书封面）', width: 1242, height: 1660 },
+  { id: '900x1200', label: '900 × 1200（方图 3:4）', width: 900, height: 1200 },
 ] as const
 
-const PADDING = 48
+const OUTER_PADDING = 32
 const FOOTER = 40
 const CANVAS_LIMIT = 16384
 
@@ -81,33 +82,62 @@ async function waitForImages(root: HTMLElement): Promise<void> {
 function createPageNode(
   nodes: HTMLElement[],
   size: { width: number; height: number },
+  themeId: string,
+  title: string,
   pager: { index: number; total: number } | null,
 ): HTMLElement {
+  const theme = getCardTheme(themeId)
   const page = document.createElement('div')
   page.style.cssText = [
     `width:${size.width}px`,
     `height:${size.height}px`,
-    `padding:${PADDING}px`,
+    `padding:${OUTER_PADDING}px`,
     'box-sizing:border-box',
-    'background:#ffffff',
-    'color:#1c1f26',
+    `background:${theme.background}`,
     'position:fixed',
     'top:0',
     'left:-20000px',
     'display:flex',
     'flex-direction:column',
+  ].join(';')
+
+  const card = document.createElement('div')
+  card.style.cssText = [
+    'flex:1 1 auto',
+    'min-height:0',
+    'display:flex',
+    'flex-direction:column',
+    `padding:${theme.padding}`,
+    `background:${theme.cardBg}`,
+    theme.rounded ? 'border-radius:20px' : '',
+    'box-shadow:0 8px 40px rgba(0,0,0,0.08)',
     'overflow:hidden',
   ].join(';')
 
+  if (title) {
+    const titleEl = document.createElement('div')
+    titleEl.style.cssText = [
+      'font-size:34px',
+      'font-weight:800',
+      `color:${theme.color}`,
+      'line-height:1.3',
+      'margin:0 0 24px',
+      'letter-spacing:0.01em',
+    ].join(';')
+    titleEl.textContent = title
+    card.appendChild(titleEl)
+  }
+
   const body = document.createElement('div')
-  body.className = 'prose'
   body.style.cssText = 'flex:1 1 auto;min-height:0;'
   for (const node of nodes) body.appendChild(node.cloneNode(true))
-  page.appendChild(body)
+  card.appendChild(body)
+
+  page.appendChild(card)
 
   if (pager) {
     const footer = document.createElement('div')
-    footer.style.cssText = `flex:0 0 ${FOOTER}px;display:flex;align-items:center;justify-content:center;font-size:13px;letter-spacing:0.08em;color:#9aa3b2;`
+    footer.style.cssText = `flex:0 0 ${FOOTER}px;display:flex;align-items:center;justify-content:center;font-size:13px;letter-spacing:0.12em;color:${theme.muted};`
     footer.textContent = `${pager.index} / ${pager.total}`
     page.appendChild(footer)
   }
@@ -136,6 +166,7 @@ export default function LongImageToolPage() {
   const [articles, setArticles] = useState<Article[]>([])
   const [content, setContent] = useState('')
   const [title, setTitle] = useState('')
+  const [themeId, setThemeId] = useState<string>('xhs-purple')
   const [presetId, setPresetId] = useState<string>('1080x1440')
   const [scale, setScale] = useState(2)
   const [mode, setMode] = useState<Mode>('paged')
@@ -147,8 +178,14 @@ export default function LongImageToolPage() {
   const [notice, setNotice] = useState<string | null>(null)
   const measureRef = useRef<HTMLDivElement>(null)
 
+  const theme = getCardTheme(themeId)
   const preset = SIZE_PRESETS.find((item) => item.id === presetId) ?? SIZE_PRESETS[0]
-  const contentWidth = preset.width - PADDING * 2
+  // 内容区宽度 = 页宽 - 外层 padding - 卡片 padding 左右
+  const cardPaddingX = (() => {
+    const m = theme.padding.match(/(\d+)px/)
+    return m ? Number(m[1]) : 40
+  })()
+  const contentWidth = preset.width - OUTER_PADDING * 2 - cardPaddingX * 2
 
   useEffect(() => {
     void listArticles().then(setArticles)
@@ -163,12 +200,13 @@ export default function LongImageToolPage() {
     const timer = setTimeout(() => {
       void (async () => {
         try {
-          const { renderMarkdown } = await import('@blog/markdown')
-          const result = await renderMarkdown(content, {
+          const { renderCardHtml } = await import('@blog/markdown')
+          const result = await renderCardHtml(content, {
+            themeId,
             resolveAssetUrl: (id) => assetUrls.get(id) ?? null,
           })
           if (!cancelled) {
-            setHtml(result.html)
+            setHtml(result)
             setError(null)
           }
         } catch (cause) {
@@ -181,7 +219,7 @@ export default function LongImageToolPage() {
       clearTimeout(timer)
     }
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [content, assetKey])
+  }, [content, themeId, assetKey])
 
   useEffect(() => {
     let cancelled = false
@@ -193,7 +231,7 @@ export default function LongImageToolPage() {
         await waitForImages(measure)
         if (cancelled) return
         const layout = collectBlocks(measure)
-        const pageHeight = preset.height - PADDING * 2 - (showPager ? FOOTER : 0) - 2
+        const pageHeight = preset.height - OUTER_PADDING * 2 - (showPager ? FOOTER : 0) - 2
         const pages = paginateBlocks(layout.metrics, { pageHeight })
         setStats({ pageCount: pages.length, totalHeight: layout.totalHeight })
       })()
@@ -202,7 +240,7 @@ export default function LongImageToolPage() {
       cancelled = true
       clearTimeout(timer)
     }
-  }, [html, title, preset, showPager])
+  }, [html, title, preset, themeId, showPager])
 
   async function handleExport() {
     const measure = measureRef.current
@@ -218,7 +256,7 @@ export default function LongImageToolPage() {
 
       const { toPng } = await import('html-to-image')
       const footerHeight = showPager ? FOOTER : 0
-      const singleHeight = totalHeight + PADDING * 2
+      const singleHeight = totalHeight + OUTER_PADDING * 2
 
       let usePaged = mode === 'paged'
       if (!usePaged && exceedsCanvasLimit(singleHeight, scale, CANVAS_LIMIT)) {
@@ -228,14 +266,13 @@ export default function LongImageToolPage() {
 
       const date = new Date().toISOString().slice(0, 10)
       const baseName = `${date}-${(title || 'long-image').replace(/[\\/:*?"<>|\s]+/g, '-')}-${preset.width}x${preset.height}`
-      const pageHeight = preset.height - PADDING * 2 - footerHeight - 2
+      const pageHeight = preset.height - OUTER_PADDING * 2 - footerHeight - 2
 
       if (!usePaged) {
-        const page = createPageNode(nodes, { width: preset.width, height: singleHeight }, null)
+        const page = createPageNode(nodes, { width: preset.width, height: singleHeight }, themeId, title, null)
         try {
           const dataUrl = await toPng(page, {
             pixelRatio: scale,
-            backgroundColor: '#ffffff',
             cacheBust: true,
             width: preset.width,
             height: singleHeight,
@@ -255,14 +292,13 @@ export default function LongImageToolPage() {
       for (let index = 0; index < pages.length; index += 1) {
         const slice = pages[index]!
         const pageNodes = slice.indexes.map((blockIndex) => nodes[blockIndex]!).filter(Boolean)
-        const page = createPageNode(pageNodes, { width: preset.width, height: preset.height }, {
+        const page = createPageNode(pageNodes, { width: preset.width, height: preset.height }, themeId, title, {
           index: index + 1,
           total: pages.length,
         })
         try {
           const dataUrl = await toPng(page, {
             pixelRatio: scale,
-            backgroundColor: '#ffffff',
             cacheBust: true,
             width: preset.width,
             height: preset.height,
@@ -305,7 +341,7 @@ export default function LongImageToolPage() {
         <div>
           <h1 className="text-xl font-semibold">长图导出</h1>
           <p className="mt-1 text-sm text-[var(--color-text-muted)]">
-            按页宽测量排版并逐页截图，标题不会单独留在页尾。
+            Markdown 一键生成小红书风格知识卡片，自动分页，标题不会单独留在页尾。
           </p>
         </div>
         <Button variant="primary" onClick={() => void handleExport()} loading={busy} disabled={!content}>
@@ -341,6 +377,20 @@ export default function LongImageToolPage() {
               {articles.map((article) => (
                 <option key={article.id} value={article.id}>
                   {article.title}
+                </option>
+              ))}
+            </select>
+          </Field>
+
+          <Field label="卡片主题">
+            <select
+              className="h-10 rounded-[var(--radius)] border border-[var(--color-border)] bg-[var(--color-surface)] px-3 text-sm"
+              value={themeId}
+              onChange={(event) => setThemeId(event.target.value)}
+            >
+              {CARD_THEMES.map((theme) => (
+                <option key={theme.id} value={theme.id}>
+                  {theme.label}
                 </option>
               ))}
             </select>
@@ -397,7 +447,7 @@ export default function LongImageToolPage() {
               value={content}
               onChange={(event) => setContent(event.target.value)}
               placeholder="粘贴 Markdown…"
-              className="min-h-[32vh] w-full resize-y rounded-[var(--radius)] border border-[var(--color-border)] px-3 py-2 font-mono text-sm leading-relaxed focus:border-[var(--color-accent)] focus:outline-none"
+              className="min-h-[28vh] w-full resize-y rounded-[var(--radius)] border border-[var(--color-border)] px-3 py-2 font-mono text-sm leading-relaxed focus:border-[var(--color-accent)] focus:outline-none"
             />
           </Field>
 
@@ -413,23 +463,35 @@ export default function LongImageToolPage() {
           <div className="overflow-auto rounded-[var(--radius)] border border-[var(--color-border)] bg-[var(--color-surface-muted)] p-4">
             <div
               style={{
-                width: contentWidth,
+                width: preset.width,
                 margin: '0 auto',
-                background: '#ffffff',
-                padding: `${PADDING}px`,
-                color: '#1c1f26',
+                background: theme.background,
+                padding: `${OUTER_PADDING}px`,
+                boxSizing: 'border-box',
               }}
             >
-              {title ? (
-                <div style={{ fontSize: 30, fontWeight: 700, lineHeight: 1.35, margin: '0 0 28px' }}>{title}</div>
-              ) : null}
-              <div className="prose" dangerouslySetInnerHTML={{ __html: html }} />
+              <div
+                style={{
+                  background: theme.cardBg,
+                  padding: theme.padding,
+                  borderRadius: theme.rounded ? 20 : 0,
+                  boxShadow: '0 8px 40px rgba(0,0,0,0.08)',
+                  color: theme.color,
+                }}
+              >
+                {title ? (
+                  <div style={{ fontSize: 34, fontWeight: 800, lineHeight: 1.3, margin: '0 0 24px', color: theme.color }}>
+                    {title}
+                  </div>
+                ) : null}
+                <div dangerouslySetInnerHTML={{ __html: html }} />
+              </div>
             </div>
           </div>
         </div>
       </div>
 
-      {/* 离屏测量容器：宽度与导出页内容宽度一致 */}
+      {/* 离屏测量容器：与导出卡片同宽、同 padding、同字体，保证块高一致 */}
       <div
         aria-hidden
         ref={measureRef}
@@ -438,17 +500,30 @@ export default function LongImageToolPage() {
           top: 0,
           left: -20000,
           width: contentWidth,
-          background: '#ffffff',
-          color: '#1c1f26',
+          background: theme.cardBg,
+          padding: theme.padding,
+          color: theme.color,
+          fontFamily: theme.fontFamily,
+          fontSize: theme.fontSize,
+          lineHeight: theme.lineHeight,
           pointerEvents: 'none',
         }}
       >
         {title ? (
-          <div data-role="title" style={{ fontSize: 30, fontWeight: 700, lineHeight: 1.35, margin: '0 0 28px' }}>
+          <div
+            data-role="title"
+            style={{
+              fontSize: 34,
+              fontWeight: 800,
+              lineHeight: 1.3,
+              margin: '0 0 24px',
+              color: theme.color,
+            }}
+          >
             {title}
           </div>
         ) : null}
-        <div data-role="body" className="prose" dangerouslySetInnerHTML={{ __html: html }} />
+        <div data-role="body" dangerouslySetInnerHTML={{ __html: html }} />
       </div>
     </div>
   )
