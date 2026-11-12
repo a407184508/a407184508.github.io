@@ -87,6 +87,9 @@ function createPageNode(
   pager: { index: number; total: number } | null,
 ): HTMLElement {
   const theme = getCardTheme(themeId)
+  // 离屏容器负责定位，截图节点本身保持 static，否则克隆后内容会被画到画布外
+  const holder = document.createElement('div')
+  holder.style.cssText = 'position:fixed;top:0;left:-20000px;pointer-events:none;'
   const page = document.createElement('div')
   page.style.cssText = [
     `width:${size.width}px`,
@@ -94,9 +97,6 @@ function createPageNode(
     `padding:${OUTER_PADDING}px`,
     'box-sizing:border-box',
     `background:${theme.background}`,
-    'position:fixed',
-    'top:0',
-    'left:-20000px',
     'display:flex',
     'flex-direction:column',
   ].join(';')
@@ -142,7 +142,8 @@ function createPageNode(
     page.appendChild(footer)
   }
 
-  document.body.appendChild(page)
+  holder.appendChild(page)
+  document.body.appendChild(holder)
   return page
 }
 
@@ -279,7 +280,7 @@ export default function LongImageToolPage() {
           })
           downloadBlob(new Blob([dataUrlToBytes(dataUrl)], { type: 'image/png' }), `${baseName}.png`)
         } finally {
-          page.remove()
+          page.parentElement?.remove()
         }
         setNotice(`已导出单张长图（${preset.width} × ${singleHeight}，${scale}x）。`)
         return
@@ -307,7 +308,7 @@ export default function LongImageToolPage() {
         } catch {
           failures.push(index + 1)
         } finally {
-          page.remove()
+          page.parentElement?.remove()
         }
         await new Promise((resolve) => requestAnimationFrame(() => resolve(null)))
       }

@@ -81,6 +81,16 @@ function uid(): string {
   return Math.random().toString(36).slice(2, 10)
 }
 
+/** 直接解码 base64 data URL；不能用 fetch，CSP connect-src 不允许 data: 协议。 */
+function dataUrlToBlob(dataUrl: string): Blob {
+  const [meta, base64] = dataUrl.split(',')
+  const mime = meta?.match(/data:([^;]+)/)?.[1] ?? 'image/png'
+  const binary = atob(base64 ?? '')
+  const bytes = new Uint8Array(binary.length)
+  for (let i = 0; i < binary.length; i += 1) bytes[i] = binary.charCodeAt(i)
+  return new Blob([bytes], { type: mime })
+}
+
 function createTextLayer(canvas: { width: number; height: number }, text: string): TextLayer {
   return {
     id: uid(),
@@ -299,15 +309,14 @@ export default function CoverToolPage() {
     setError(null)
     setNotice(null)
     try {
-      // 构建离屏导出节点
+      // 构建离屏导出节点：截图节点本身不能用 fixed/负偏移，否则克隆后会被画到画布外
+      const holder = document.createElement('div')
+      holder.style.cssText = 'position:fixed;top:0;left:-20000px;pointer-events:none;'
       const exportNode = document.createElement('div')
       exportNode.style.cssText = [
         `width:${state.width}px`,
         `height:${state.height}px`,
         `background:${bgCss(state.background)}`,
-        'position:fixed',
-        'top:0',
-        'left:-20000px',
         'overflow:hidden',
       ].join(';')
 
@@ -353,7 +362,8 @@ export default function CoverToolPage() {
         }
       }
 
-      document.body.appendChild(exportNode)
+      document.body.appendChild(holder)
+      holder.appendChild(exportNode)
       try {
         const images = Array.from(exportNode.querySelectorAll('img'))
         await Promise.all(images.map((img) => (img.complete ? img.decode().catch(() => null) : new Promise<void>((r) => { img.onload = () => r(); img.onerror = () => r() }))))
@@ -361,7 +371,7 @@ export default function CoverToolPage() {
         const dataUrl = exportFormat === 'png'
           ? await toPng(exportNode, { pixelRatio: 1, width: state.width, height: state.height, cacheBust: true })
           : await toJpeg(exportNode, { pixelRatio: 1, width: state.width, height: state.height, quality: 0.95, cacheBust: true })
-        const blob = await (await fetch(dataUrl)).blob()
+        const blob = dataUrlToBlob(dataUrl)
         const a = document.createElement('a')
         a.href = URL.createObjectURL(blob)
         a.download = `cover-${state.width}x${state.height}.${exportFormat}`
@@ -369,9 +379,10 @@ export default function CoverToolPage() {
         setTimeout(() => URL.revokeObjectURL(a.href), 4000)
         setNotice(`已导出封面（${state.width} × ${state.height}）。`)
       } finally {
-        exportNode.remove()
+        holder.remove()
       }
     } catch (cause) {
+      console.error('[cover export]', cause)
       setError(cause instanceof Error ? cause.message : '导出失败')
     } finally {
       setBusy(false)
